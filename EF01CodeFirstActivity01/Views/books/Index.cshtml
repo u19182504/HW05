@@ -1,0 +1,100 @@
+﻿@model ClassActivity.Models.BooksViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using (Html.BeginForm("Search","books",FormMethod.Post))
+{
+    <hr />
+<input class="form-control" style="display: inline-block" type="text" name="search" placeholder="Search " />
+<select name="types" style="display: inline-block" class="form-control">
+    <option>Select a Type</option>
+    @foreach (var item in Model.types)
+    {
+        <option value="@item.typeId">@item.name</option>
+    }
+</select>
+<select name="author" style="display:inline-block" class="form-control">
+    <option>Select an Author</option>
+    @foreach (var item in Model.authors)
+    {
+        <option value="@item.authorId">@item.name</option>
+    }
+</select>
+<button class="btn btn-success" style="width:10%">Search</button>
+<button href ="@Url.Action("Index","Home")" class="btn btn-danger" style="width:10%">Clear</button>
+<hr />
+}
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Author Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Page Count
+            </th>
+            <th>
+                Points
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.bookId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.author.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.type.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pagecount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.point)
+                </td>
+                <td>
+
+                    @if (item.borrows.FirstOrDefault(x => x.broughtDate > DateTime.Now) != null)
+                    {
+                        <p style="color:red">Out</p>
+                    }
+                    else
+                    {
+                        <p style="color:green">Available</p>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("View", "Details", new { id = item.bookId }, new { @class = " btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

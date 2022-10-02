@@ -1,0 +1,40 @@
+﻿@model ClassActivity.Models.BooksDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div>
+    <h1>@Model.name </h1> @if (Model.status == "Available"){    <h1 style="color:green">Book Available</h1> }
+    else
+    {<h1 style="color:red">Book Out</h1>}
+    <hr />
+    <h2 style="display:inline-block"># Borrows - @Model.numborrows</h2>
+    <span style = "display: flex; justify-content:flex-end">
+        @Html.ActionLink("View Students", "Index", "students", new { id = Model.id }, new { @class = " btn btn-primary" })
+    </span>
+    <hr />
+    <table  class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Taken date</th>
+                <th>Brought Date</th>
+                <th>Borrowed by</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Borrows)
+            {
+                <tr>
+                    <td>@item.borrowId</td>
+                    <td>@item.takenDate</td>
+                    <td>@item.broughtDate</td>
+                    <td>@item.student.name @item.student.surname</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ClassActivity.Models.StudentList>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Students</h1>
+<input class="form-control" style="display: inline-block" type="text" name="search" placeholder="Search Student Name" />
+<select name="types" style="display: inline-block" class="form-control">
+    <option>Select a Class</option>
+</select>
+<button class="btn btn-success" style="width:15%">Search</button>
+<button href ="@Url.Action("Index","Home")" class="btn btn-danger" style="width:15%">Clear</button>
+<hr />
+
+
+<table class="table" >
+    <thead>
+        <tr>
+            <th>
+               #
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Class
+            </th>
+            <th>
+                Point
+            </th>
+            <th>
+                Borrow Book
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.studentId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.@class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.point)
+                    </td>
+                    <td>
+                        @if (item.Student.studentId == Convert.ToInt32(ViewBag.booked))
+                        {
+                            @Html.ActionLink("Return Book", "ReturnBook", new { id = item.Student.studentId }, new { @class = "btn btn-primary" })
+                        }
+                        else if (ViewBag.booked==null)
+                        {
+                            @Html.ActionLink("Borrow Book", "BorrowBook", new { id = item.Student.studentId }, new { @class = "btn btn-primary" })
+                        }
+                        else { }
+
+                    </td>
+                </tr>
+            }
+
+    </tbody>
+</table>
